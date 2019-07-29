@@ -5,7 +5,7 @@ namespace DatingApp.API.Moduls
         
         public int Id { get; set; }
         public string Username { get; set; }
-        public byte[] PaswordHash { get; set; }
-        public byte[] PaswrdSalt { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswrdSalt { get; set; }
     }
 }
