@@ -10,6 +10,7 @@ import { AuthService } from './_services/auth.service';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvide } from './_services/error.interceptor';
+import { AlertifyService } from './_services/alertify.service';
 
 
 
@@ -29,7 +30,8 @@ import { ErrorInterceptorProvide } from './_services/error.interceptor';
    ],
    providers: [
       ErrorInterceptorProvide,
-      AuthService
+      AuthService,
+      AlertifyService
       
    ],
    bootstrap: [
