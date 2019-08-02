@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   model: any = {};
 
   constructor(
-    private authSevice: AuthService,
+    public authSevice: AuthService,
     private alertify: AlertifyService
   ) {}
 
