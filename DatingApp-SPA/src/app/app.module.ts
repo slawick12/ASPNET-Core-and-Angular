@@ -11,7 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvide } from './_services/error.interceptor';
 import { AlertifyService } from './_services/alertify.service';
-
+import {BsDropdownModule} from "ngx-bootstrap"
 
 
 
@@ -26,7 +26,8 @@ import { AlertifyService } from './_services/alertify.service';
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      BsDropdownModule.forRoot()
    ],
    providers: [
       ErrorInterceptorProvide,
