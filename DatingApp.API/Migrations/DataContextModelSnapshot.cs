@@ -23,7 +23,7 @@ namespace DatingApp.API.Migrations
 
                     b.Property<DateTime>("DateAdded");
 
-                    b.Property<int>("Description");
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsMain");
 
