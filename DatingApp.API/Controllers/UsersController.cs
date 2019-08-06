@@ -28,5 +28,5 @@ namespace DatingApp.API.Controllers
             var user = await _repo.GetUser(id);
             return Ok(user);
         }
-}
+    }
 }
