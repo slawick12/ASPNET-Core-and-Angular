@@ -3,9 +3,10 @@ import { environment } from "src/environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from "../_moduls/user";
+
 const httpOptions = {
   headers: new HttpHeaders({
-    "Authorization": "Bearer" + localStorage.getItem("token")
+    "Authorization": "Bearer " + localStorage.getItem("token")
   })
 };
 
