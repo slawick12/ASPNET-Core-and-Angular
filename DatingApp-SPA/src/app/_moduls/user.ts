@@ -9,6 +9,7 @@ export interface User {
   created: Date;
   photoUrl: string;
   country: string;
+  city:string;
   interest?: string;
   introduction?: string;
   lokingFor?: string;
