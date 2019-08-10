@@ -4,7 +4,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { JwtModule } from "@auth0/angular-jwt";
-import {NgxGalleryModule} from 'ngx-gallery';
+import { NgxGalleryModule } from "ngx-gallery";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -22,9 +22,11 @@ import { appRoutes } from "./routes";
 import { AuthGuard } from "./_guards/auth.guard";
 import { UserService } from "./_services/user.service";
 import { MemberCardComponent } from "./members/member-card/member-card.component";
-import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { MemberDatailResolver } from './_resolvers/member-detail.resolver';
-import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { MemberDetailComponent } from "./members/member-detail/member-detail.component";
+import { MemberDatailResolver } from "./_resolvers/member-detail.resolver";
+import { MemberListResolver } from "./_resolvers/member-list.resolver";
+import { MemberEditComponent } from "./members/member-edit/member-edit.component";
+import { MemberEditResolver } from "./_resolvers/member-edit.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -39,7 +41,8 @@ export function tokenGetter() {
     ListComponent,
     MessagesComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ export function tokenGetter() {
     AuthGuard,
     UserService,
     MemberDatailResolver,
-    MemberListResolver
+    MemberListResolver,
+    MemberEditResolver
   ],
   bootstrap: [AppComponent]
 })
