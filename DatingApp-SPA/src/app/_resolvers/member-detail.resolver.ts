@@ -5,6 +5,7 @@ import { UserService } from "../_services/user.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { resolve } from 'path';
 
 @Injectable()
 export class MemberDatailResolver implements Resolve<User> {
@@ -13,8 +14,9 @@ export class MemberDatailResolver implements Resolve<User> {
     private route: Router,
     private alertify: AlertifyService
   ) {}
-
+ 
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
+    console.log(this.userService.getUser(route.params["id"]))
     return this.userService.getUser(route.params["id"]).pipe(
       catchError(error => {
         this.alertify.error("Problem retrieving data");

@@ -10,6 +10,7 @@ namespace DatingApp.API.Dtos
 
         public string Gender { get; set; }
 
+
         public int Age { get; set; }
 
         public string KnowAs { get; set; }
