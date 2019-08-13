@@ -12,53 +12,57 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace DatingApp.API.Controllers
+namespace Firstpage.API.Controllers
 {
-    [Authorize]
-    [Route("api/user/{userId}/photos")]
+     [Authorize]
+    [Route("api/users/{userId}/photos")]
     [ApiController]
-    public class PhotoContoller : Controller
+    public class PhotosController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IDatingRepository _repo;
+        private readonly IMapper _mapper;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
         private Cloudinary _cloudinary;
-
-        public PhotoContoller(IDatingRepository repo, IMapper mapper,
-            IOptions<CloudinarySettings> cloudinaryConfig)
+ 
+        public PhotosController(DatingRepository repo, IMapper mapper,
+ 
+        IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _cloudinaryConfig = cloudinaryConfig;
-            _repo = repo;
             _mapper = mapper;
-
+            _repo = repo;
+ 
             Account acc = new Account(
                 _cloudinaryConfig.Value.CloudName,
                 _cloudinaryConfig.Value.ApiKey,
                 _cloudinaryConfig.Value.ApiSecret
             );
-
             _cloudinary = new Cloudinary(acc);
         }
-        [HttpGet("{id}", Name = " GetPhoto")]
+ 
+        [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<IActionResult> GetPhoto(int id)
         {
             var photoFromRepo = await _repo.GetPhoto(id);
-
+ 
             var photo = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
-
-            return Ok(photo)
+ 
+            return Ok(photo);
         }
-
+ 
         [HttpPost]
-        public async Task<IActionResult> AddPhotoForUser(int userId, PhotoForCreationDto photoForCreationDto)
+        public async Task<IActionResult> AddPhotosForUser(int userId,
+        [FromForm]PhotoForCreationDto photoForCreationDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
-
+ 
             var userFromRepo = await _repo.GetUser(userId);
+ 
             var file = photoForCreationDto.File;
-
+ 
             var uploadResult = new ImageUploadResult();
+ 
             if (file.Length > 0)
             {
                 using (var stream = file.OpenReadStream())
@@ -66,28 +70,31 @@ namespace DatingApp.API.Controllers
                     var uploadParams = new ImageUploadParams()
                     {
                         File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500).Height(500).Crop("file").Gravity("face")
+                        Transformation = new Transformation()
+                        .Width(500).Height(500).Crop("fill").Gravity("face")
                     };
-
                     uploadResult = _cloudinary.Upload(uploadParams);
                 }
             }
             photoForCreationDto.Url = uploadResult.Uri.ToString();
             photoForCreationDto.PublicId = uploadResult.PublicId;
-
+ 
             var photo = _mapper.Map<Photo>(photoForCreationDto);
+ 
             if (!userFromRepo.Photos.Any(u => u.IsMain))
                 photo.IsMain = true;
+ 
             userFromRepo.Photos.Add(photo);
-
-
-
+ 
             if (await _repo.SaveAll())
             {
-                var PhotoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
-                return CreatedAtRoute("GetPhoto", new { id = photo.Id }, PhotoToReturn);
+                var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
+ 
+                return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
             }
-            return BadRequest("Cloud not add the photo");
+            return BadRequest("Could not add photo");
         }
+       
     }
 }
+ 
