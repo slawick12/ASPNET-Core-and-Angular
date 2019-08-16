@@ -15,6 +15,7 @@ namespace DatingApp.API.Dtos
         public string KnowAs { get; set; }
 
         public DateTime Created { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public DateTime LastActive { get; set; }
 
