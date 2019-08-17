@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { AuthService } from "../_services/auth.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
+import { User } from '../_moduls/user';
 
 @Component({
   selector: "app-navbar",
@@ -9,6 +10,8 @@ import { Router } from "@angular/router";
   styleUrls: ["./navbar.component.css"]
 })
 export class NavbarComponent implements OnInit {
+  @Input() user:User;
+  
   model: any = {};
 
   constructor(
