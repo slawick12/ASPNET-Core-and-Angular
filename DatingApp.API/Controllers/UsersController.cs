@@ -31,10 +31,12 @@ namespace DatingApp.API.Controllers
         {
             var users = await _repo.GetUsers(userParams);
 
-            var userToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
-            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
-            return Ok(userToReturn);
+            Response.AddPagination(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages);
+
+            return Ok(usersToReturn);
         }
 
         [HttpGet("{id}", Name = "GetUser")]
