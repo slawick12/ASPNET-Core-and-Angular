@@ -14,7 +14,7 @@ namespace DatingApp.API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+   public class UsersController : ControllerBase
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
@@ -22,24 +22,23 @@ namespace DatingApp.API.Controllers
         public UsersController(IDatingRepository repo, IMapper mapper)
         {
             _mapper = mapper;
-
             _repo = repo;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userFromRepo = await _repo.GetUser(currentUserId);
-            var users = await _repo.GetUsers(userParams);
             userParams.UserId = currentUserId;
 
             if (string.IsNullOrEmpty(userParams.Gender))
             {
                 userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
             }
-            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
+            var users = await _repo.GetUsers(userParams);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
             Response.AddPagination(users.CurrentPage, users.PageSize,
                 users.TotalCount, users.TotalPages);
 
@@ -49,6 +48,7 @@ namespace DatingApp.API.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
+            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
             var user = await _repo.GetUser(id);
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
 
