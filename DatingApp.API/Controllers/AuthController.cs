@@ -32,7 +32,7 @@ namespace DatingApp.API.Controllers
 
         [HttpPost("register")]
 
-        public async Task<IActionResult> Register(UserForRegisterDtos userForRegisterDtos)
+        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDtos)
         {
             //validate request
             userForRegisterDtos.Username = userForRegisterDtos.Username.ToLower();
