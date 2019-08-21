@@ -52,7 +52,18 @@ namespace DatingApp.API.Controllers
 
             return Ok(messages);
         }
+        [HttpGet("thread/{recipientId}")]
+        public async Task<IActionResult> GetMessageThread(int userId, int recipientId)
+        {
+             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized(); //authorizesion check
 
+            var messageFromRepo = await _repo.GetMessageThread(userId, recipientId);
+
+            var messageThread = _mapper.Map<IEnumerable<MessageToReturnDto>>(messageFromRepo);
+
+            return Ok(messageThread);
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, MessageForCreationDto messageForCreationDto)
@@ -62,9 +73,9 @@ namespace DatingApp.API.Controllers
 
             messageForCreationDto.SenderId = userId;
 
-            var recepient = await _repo.GetUser(messageForCreationDto.RecepientId);
+            var recipient = await _repo.GetUser(messageForCreationDto.RecipientId);
 
-            if (recepient == null)
+            if (recipient == null)
                 return BadRequest("Could not find user");
 
             var message = _mapper.Map<Message>(messageForCreationDto);
