@@ -20,7 +20,7 @@ export class MessagesComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    alertify: AlertifyService
+    private alertify: AlertifyService
   ) {}
 
   ngOnInit() {
@@ -40,6 +40,8 @@ export class MessagesComponent implements OnInit {
       .subscribe((res: PaginatedResult<Message[]>) => {
         this.messages = res.result;
         this.pagination = res.pagination;
+      },error =>{
+        this.alertify.error(error);
       });
   }
   pageChanged(event: any): void {
