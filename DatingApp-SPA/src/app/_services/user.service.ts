@@ -59,7 +59,7 @@ export class UserService {
     return this.http.put(this.baseUrl + "users/" + id, user);
   }
 
-  getMessages(useId: User[], page?, itemsPerPage?, messageContainer?) {
+  getMessages(id: number, page?, itemsPerPage?, messageContainer?) {
     const paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<
       Message[]
     >();
@@ -74,7 +74,7 @@ export class UserService {
     }
 
     return this.http
-      .get<Message[]>(this.baseUrl + "users/" + useId + "/messages", {
+      .get<Message[]>(this.baseUrl + "users/" + id + "/messages", {
         observe: "response",
         params
       })
@@ -92,6 +92,11 @@ export class UserService {
       );
   }
   getMessageThread(id: number, recipientId: number) {
-    return this.http.get<Message[]>(this.baseUrl + "users/" + id + "/messages/thread" + recipientId);
+    return this.http.get<Message[]>(
+      this.baseUrl + 'users/' + id + '/messages/thread/' + recipientId
+    );
+  }
+  sendMessage(id: number, message: Message) {
+    return this.http.post(this.baseUrl + 'users/' + id + '/messages', message);
   }
 }
