@@ -32,7 +32,7 @@ export class MessagesComponent implements OnInit {
   loadMessages() {
     this.userService
       .getMessages(
-        this.authService.decodedToken.nameId,
+        this.authService.decodedToken.nameid,
         this.pagination.currentPage,
         this.pagination.itemsPerPage,
         this.messageContainer

@@ -5,7 +5,7 @@ import { UserService } from "../_services/user.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { resolve } from 'path';
+
 
 @Injectable()
 export class MemberDatailResolver implements Resolve<User> {
